@@ -6,11 +6,11 @@ import logging
 
 GECKO_DRIVER_PATH = './geckodriver'
 
-# EMAIL = "elliottban@sjtu.edu.cn"
-# SCHOOL = "TELECOM"
-# START_DATE = "2017-08-28"
-# END_DATE = "2019-02-20"
-
+EMAIL = "elliottban@sjtu.edu.cn"
+SCHOOL = "TELECOM"
+START_DATE = "2017-08-28"
+END_DATE = "2019-02-20"
+SOURCE_FILE = "./source.xlsx"
 
 def set_env():
     if EMAIL == "":
@@ -21,6 +21,8 @@ def set_env():
         START_DATE = input("开始交换时间 yyyy-mm-dd：")
     if END_DATE == "":
         END_DATE = input("结束交换时间 yyyy-mm-dd：")
+    if SOURCE_FILE == "":
+        SOURCE_FILE = input("学分转换表路径：")
     logging.info("基本参数变量获取成功")
 
     return
@@ -102,12 +104,14 @@ def new_application(form_row):
 
 
 if __name__ == "__main__":
+    set_env()
+
     logging.info("脚本正在启动……您将看到一个新的浏览器窗口")
     driver = webdriver.Firefox(executable_path=GECKO_DRIVER_PATH)
     driver.get("http://my.sjtu.edu.cn/")
     input("现在，请在新打开的浏览器中前往成绩转换申请页面，完成后敲击回车")
 
-    application_form = read_application_form()
+    application_form = read_application_form(SOURCE_FILE)
     print(application_form)
     index = input("从哪条记录开始（含）？：")
 
